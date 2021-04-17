@@ -1,26 +1,29 @@
 package com.example.appshortcut
 
+import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appshortcut.data.SetAppInfo
 
-class SetAppListAdapter(private val setAppList: List<SetAppInfo>)
+class SetAppListAdapter(private val setAppList: List<Drawable>)
     : RecyclerView.Adapter<SetAppListAdapter.SetAppViewHolder>() {
 
     inner class SetAppViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        //val appIcon = view.findViewById<ImageView>()
+        val appIcon: ImageView = view.findViewById(R.id.app_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetAppViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.set_app_list_item, parent, false)
+
+        return SetAppViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SetAppViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.appIcon.setImageDrawable(setAppList[position])
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount(): Int = setAppList.size
 }
