@@ -17,16 +17,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Set App List
+        val setListLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
+        val setListAdapter = SetAppListAdapter()
+        findViewById<RecyclerView>(R.id.set_app_list).apply {
+            this.layoutManager = setListLayoutManager
+            this.adapter = setListAdapter
+        }
 
+        // Installed App List
         val layoutManager = LinearLayoutManager(this)
         val listAdapter = AppListAdapter(getApplicationList())
-
         findViewById<RecyclerView>(R.id.app_list).apply {
             this.layoutManager = layoutManager
             this.adapter = listAdapter
         }
 
-        var builder = NotificationCompat.Builder(this, 2.toString())
+        val builder = NotificationCompat.Builder(this, 2.toString())
                 .setContentTitle("Hello")
                 .setContentText("Hell")
                 .setSmallIcon(R.drawable.ic_launcher_background)
