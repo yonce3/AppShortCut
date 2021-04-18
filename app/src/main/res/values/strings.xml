@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AppShortcut</string>
+    <string name="shortcut_list_title">ショートカットに追加したアプリ一覧</string>
+    <string name="app_list_view_title">端末内のアプリ一覧</string>
+    <string name="set_app_dialog_message">このアプリをショートカットに追加しますか？</string>
+    <string name="set_app_dialog_yes">はい</string>
+    <string name="set_app_dialog_no">いいえ</string>
 </resources>

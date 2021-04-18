@@ -1,4 +1,4 @@
-package com.example.appshortcut
+package com.example.appshortcut.view
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,28 +7,40 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appshortcut.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
+    private val viewModel by lazy { ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Set App List
         val setListLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
-        val setListAdapter = SetAppListAdapter()
+        //val setListAdapter = SetAppListAdapter()
         findViewById<RecyclerView>(R.id.set_app_list).apply {
             this.layoutManager = setListLayoutManager
-            this.adapter = setListAdapter
+            //this.adapter = setListAdapter
         }
 
         // Installed App List
         val layoutManager = LinearLayoutManager(this)
         val listAdapter = AppListAdapter(getApplicationList())
+        listAdapter.setOnItemClickListener(object: AppListAdapter.OnItemClickListener {
+            override fun onItemClickListener(view: View, position: Int, clickedText: String) {
+                SetAppDialog().show(supportFragmentManager, "setAppDialog")
+            }
+        })
         findViewById<RecyclerView>(R.id.app_list).apply {
+            this.addItemDecoration(DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL))
             this.layoutManager = layoutManager
             this.adapter = listAdapter
         }
@@ -63,6 +75,16 @@ class MainActivity : AppCompatActivity() {
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
 
         val appInfoList = packageManager.queryIntentActivities(intent, 0)
-        return appInfoList.map { AppInfo(it.loadLabel(packageManager).toString(), it.loadIcon(packageManager)) }
+        return appInfoList.map {
+            AppInfo(
+                it.loadLabel(packageManager).toString(),
+                it.loadIcon(packageManager)
+            )
+        }
+    }
+
+    override fun onClickOk() {
+        viewModel
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
     }
 }
