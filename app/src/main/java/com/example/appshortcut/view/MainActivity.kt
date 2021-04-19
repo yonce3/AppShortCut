@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appshortcut.*
 
 class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
-    private val viewModel by lazy { ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider.AndroidViewModelFactory(application).create(MainViewModel::class.java) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
     }
 
     override fun onClickOk() {
-        viewModel
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
+        viewModel.saveApp(getApplicationList().[])
+        //Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
     }
 }
