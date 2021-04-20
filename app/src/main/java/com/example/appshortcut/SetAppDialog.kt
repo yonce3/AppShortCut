@@ -4,14 +4,16 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.appshortcut.view.MainActivity
 
-
-class SetAppDialog: DialogFragment() {
+// TODO: Not to use constructor
+class SetAppDialog(val app: AppInfo): DialogFragment() {
     interface OnClickListener {
-        fun onClickOk()
+        fun onClickOk(app: AppInfo)
     }
     lateinit var listener: OnClickListener
 
@@ -23,16 +25,19 @@ class SetAppDialog: DialogFragment() {
         return activity?.let {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
+            val inflater = requireActivity().layoutInflater
+            val view = inflater.inflate(R.layout.dialog_set_app, null)
+            view.findViewById<ImageView>(R.id.app_icon).setImageDrawable(app.appIcon)
+            view.findViewById<TextView>(R.id.app_label).text = app.appLabel
+
             builder.setMessage(R.string.set_app_dialog_message)
-                .setPositiveButton(R.string.set_app_dialog_yes,
+                    .setView(view)
+                    .setPositiveButton(R.string.set_app_dialog_yes,
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.onClickOk()
+                        listener.onClickOk(app)
                     })
-                .setNegativeButton(R.string.set_app_dialog_no,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
-            // Create the AlertDialog object and return it
+                .setNegativeButton(R.string.set_app_dialog_no, DialogInterface.OnClickListener { _, _ -> })
+
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

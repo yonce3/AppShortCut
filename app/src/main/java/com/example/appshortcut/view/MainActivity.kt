@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
         val listAdapter = AppListAdapter(getApplicationList())
         listAdapter.setOnItemClickListener(object: AppListAdapter.OnItemClickListener {
             override fun onItemClickListener(view: View, position: Int, clickedText: String) {
-                SetAppDialog().show(supportFragmentManager, "setAppDialog")
+                val app = getApplicationList()[position]
+                SetAppDialog(app).show(supportFragmentManager, "setAppDialog")
             }
         })
         findViewById<RecyclerView>(R.id.app_list).apply {
@@ -83,8 +84,8 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
         }
     }
 
-    override fun onClickOk() {
-        viewModel.saveApp(getApplicationList().[])
-        //Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
+    override fun onClickOk(app: AppInfo) {
+        viewModel.saveApp(app)
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
     }
 }
