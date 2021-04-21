@@ -1,13 +1,13 @@
 package com.example.appshortcut
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appshortcut.data.SetAppInfo
 
-class SetAppListAdapter(private val setAppList: List<Drawable>)
+class SetAppListAdapter(private var setAppList: List<SetAppInfo>)
     : RecyclerView.Adapter<SetAppListAdapter.SetAppViewHolder>() {
 
     inner class SetAppViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -22,8 +22,13 @@ class SetAppListAdapter(private val setAppList: List<Drawable>)
     }
 
     override fun onBindViewHolder(holder: SetAppViewHolder, position: Int) {
-        holder.appIcon.setImageDrawable(setAppList[position])
+        holder.appIcon.setImageDrawable(setAppList[position].appIcon)
     }
 
     override fun getItemCount(): Int = setAppList.size
+
+    fun setData(appList: List<AppInfo>) {
+        setAppList = appList
+        notifyDataSetChanged()
+    }
 }

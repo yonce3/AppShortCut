@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,11 +26,15 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
 
         // Set App List
         val setListLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
-        //val setListAdapter = SetAppListAdapter()
+        val setListAdapter = SetAppListAdapter(listOf())
         findViewById<RecyclerView>(R.id.set_app_list).apply {
             this.layoutManager = setListLayoutManager
             //this.adapter = setListAdapter
         }
+
+        viewModel.setAppList.observe(this, Observer { list ->
+            setListAdapter.setData(list)
+        })
 
         // Installed App List
         val layoutManager = LinearLayoutManager(this)

@@ -2,6 +2,8 @@ package com.example.appshortcut
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.appshortcut.data.AppRepository
@@ -12,7 +14,7 @@ import java.io.IOException
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
     private var repository: AppRepository = AppRepository(Room.databaseBuilder(application, SetAppDatabase::class.java, "appDatabase").build())
-    // var setAppList = LiveData<SetAppInfo>()
+    var setAppList: LiveData<List<SetAppInfo>> = repository.loadAppList()
 
     fun saveApp(appInfo: AppInfo) {
         viewModelScope.launch {

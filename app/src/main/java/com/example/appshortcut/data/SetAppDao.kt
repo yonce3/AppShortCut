@@ -1,5 +1,6 @@
 package com.example.appshortcut.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,4 +12,7 @@ interface SetAppDao {
 
     @Insert
     fun insertAll(vararg setApps: SetAppInfo)
+
+    @Query("SELECT * FROM setAppInfo")
+    fun loadAppInfo(): LiveData<List<SetAppInfo>>
 }
