@@ -10,6 +10,7 @@ import com.example.appshortcut.data.SetAppInfo
 class SetAppListAdapter(private var setAppList: List<SetAppInfo>)
     : RecyclerView.Adapter<SetAppListAdapter.SetAppViewHolder>() {
 
+
     inner class SetAppViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val appIcon: ImageView = view.findViewById(R.id.app_icon)
     }
