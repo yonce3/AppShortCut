@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
         val setListAdapter = SetAppListAdapter(listOf())
         findViewById<RecyclerView>(R.id.set_app_list).apply {
             this.layoutManager = setListLayoutManager
-            //this.adapter = setListAdapter
+            this.adapter = setListAdapter
         }
 
-        viewModel.setAppList.observe(this, Observer { list ->
-            setListAdapter.setData(list)
+        viewModel.setAppList.observe(this, { list ->
+            setListAdapter.setData(getApplicationIconByAppLabel(list.map { it.appLabel }))
         })
 
         // Installed App List
@@ -87,6 +87,14 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
                 it.loadIcon(packageManager)
             )
         }
+    }
+
+    private fun getApplicationIconByAppLabel(appLabelList: List<String>): List<Drawable> {
+        val intent = Intent(Intent.ACTION_MAIN, null)
+        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+
+        val appInfoList = packageManager.queryIntentActivities(intent, 0).filter { appLabelList.contains(it.loadLabel(packageManager).toString()) }
+        return appInfoList.map { it.loadIcon(packageManager) }
     }
 
     override fun onClickOk(app: AppInfo) {

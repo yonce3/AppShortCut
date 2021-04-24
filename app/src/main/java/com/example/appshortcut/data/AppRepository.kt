@@ -18,15 +18,6 @@ class AppRepository(private val db: SetAppDatabase) {
     }
 
     fun loadAppList(): LiveData<List<SetAppInfo>> {
-        var result: LiveData<List<SetAppInfo>> = db.getSetAppDao().loadAppInfo()
-//        try {
-            //withContext(Dispatchers.IO) {
-                result = db.getSetAppDao().loadAppInfo()
-           // }
-        //} catch (e: IOException) {
-           // e.printStackTrace()
-        //}
-
-        return result
+        return db.getSetAppDao().loadAppInfo()
     }
 }

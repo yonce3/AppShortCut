@@ -2,7 +2,6 @@ package com.example.appshortcut
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,11 +10,11 @@ import androidx.fragment.app.DialogFragment
 import com.example.appshortcut.view.MainActivity
 
 // TODO: Not to use constructor
-class SetAppDialog(val app: AppInfo): DialogFragment() {
+class SetAppDialog(private val app: AppInfo): DialogFragment() {
     interface OnClickListener {
         fun onClickOk(app: AppInfo)
     }
-    lateinit var listener: OnClickListener
+    private lateinit var listener: OnClickListener
 
     override fun onAttach(context: Context) {
         this.listener = activity as MainActivity
@@ -32,11 +31,10 @@ class SetAppDialog(val app: AppInfo): DialogFragment() {
 
             builder.setMessage(R.string.set_app_dialog_message)
                     .setView(view)
-                    .setPositiveButton(R.string.set_app_dialog_yes,
-                    DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(R.string.set_app_dialog_yes) { _, _ ->
                         listener.onClickOk(app)
-                    })
-                .setNegativeButton(R.string.set_app_dialog_no, DialogInterface.OnClickListener { _, _ -> })
+                    }
+                    .setNegativeButton(R.string.set_app_dialog_no) { _, _ -> }
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

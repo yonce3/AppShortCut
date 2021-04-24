@@ -1,15 +1,14 @@
 package com.example.appshortcut
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appshortcut.data.SetAppInfo
 
-class SetAppListAdapter(private var setAppList: List<SetAppInfo>)
+class SetAppListAdapter(private var setAppIconList: List<Drawable>)
     : RecyclerView.Adapter<SetAppListAdapter.SetAppViewHolder>() {
-
 
     inner class SetAppViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val appIcon: ImageView = view.findViewById(R.id.app_icon)
@@ -23,13 +22,13 @@ class SetAppListAdapter(private var setAppList: List<SetAppInfo>)
     }
 
     override fun onBindViewHolder(holder: SetAppViewHolder, position: Int) {
-        holder.appIcon.setImageDrawable(setAppList[position].appIcon)
+        holder.appIcon.setImageDrawable(setAppIconList[position])
     }
 
-    override fun getItemCount(): Int = setAppList.size
+    override fun getItemCount(): Int = setAppIconList.size
 
-    fun setData(appList: List<AppInfo>) {
-        setAppList = appList
+    fun setData(appIconList: List<Drawable>) {
+        setAppIconList = appIconList
         notifyDataSetChanged()
     }
 }
