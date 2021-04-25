@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
         }
 
         viewModel.setAppList.observe(this, { list ->
-            setListAdapter.setData(getApplicationIconByAppLabel(list.map { it.appLabel }))
+            setListAdapter.setData(getApplicationByAppLabel(list.map { it.appLabel }))
         })
 
         // Installed App List
@@ -89,12 +89,13 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
         }
     }
 
-    private fun getApplicationIconByAppLabel(appLabelList: List<String>): List<Drawable> {
+    private fun getApplicationByAppLabel(appLabelList: List<String>): List<AppInfo> {
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
 
         val appInfoList = packageManager.queryIntentActivities(intent, 0).filter { appLabelList.contains(it.loadLabel(packageManager).toString()) }
-        return appInfoList.map { it.loadIcon(packageManager) }
+        return appInfoList.map {
+            AppInfo(it.loadLabel(packageManager).toString(), it.loadIcon(packageManager))}
     }
 
     override fun onClickOk(app: AppInfo) {
