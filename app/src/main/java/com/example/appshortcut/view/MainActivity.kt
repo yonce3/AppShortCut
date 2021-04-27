@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
             val name = getString(R.string.app_name)
             val descriptionText = getString(R.string.appbar_scrolling_view_behavior)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(4.toString(), name, importance).apply {
+            val channel = NotificationChannel(2.toString(), name, importance).apply {
                 description = descriptionText
             }
             // Register the channel with the system
@@ -100,6 +100,5 @@ class MainActivity : AppCompatActivity(), SetAppDialog.OnClickListener {
 
     override fun onClickOk(app: AppInfo) {
         viewModel.saveApp(app)
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
     }
 }
